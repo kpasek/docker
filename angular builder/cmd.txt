@@ -1,0 +1,1 @@
+docker run --rm --name NPM_INSTALLER -v /Users/kpasek/Development/Crm/crm-app:/usr/src/app -w /usr/src/app node:14-alpine sh -c "npm install && npx ng build crm --output-path=dist"
