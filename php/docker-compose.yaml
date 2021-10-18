@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:13.4
+    container_name: crm-postgres13
+    environment:
+      POSTGRES_PASSWORD: qwe123
+    networks: 
+      - crm-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  
+  nginx:
+    container_name: crm-nginx
+    image: nginx:1.19.0-alpine
+    ports:
+      - 8080:80
+    networks:
+      - crm-network
+    volumes:
+      - ./docker_conf/nginx/backend.conf:/etc/nginx/conf.d/backend.conf
+      - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
+      - /Users/kpasek/Development/Crm/crm-api/app:/backend
+      - /Users/kpasek/Development/Crm/crm-app/dist:/var/www/frontend
+  php8:
+    container_name: crm-php
+    build: './docker_conf/php'
+    networks:
+      - crm-network
+    volumes:
+      - /Users/kpasek/Development/Crm/crm-api/app:/backend
+
+networks:
+  crm-network:
+volumes:
+  postgres_data:
