@@ -5,6 +5,8 @@ services:
     image: postgres:13.4
     container_name: crm-postgres13
     environment:
+      POSTGRES_DB: crm-db
+      POSTGRES_USER: crm
       POSTGRES_PASSWORD: crm-pw
     networks: 
       - crm-network
