@@ -34,6 +34,7 @@ services:
       - crm-network
     volumes:
       - /Users/kpasek/Development/Crm/crm-api/app:/backend
+      - /Users/kpasek/Development/docker/php/docker_conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 networks:
   crm-network:
