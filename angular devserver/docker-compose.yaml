@@ -1,0 +1,16 @@
+version: "3"
+
+services:  
+  angular:
+    container_name: angular-dev
+    build: .
+    command: ng serve --watch=true
+    ports:
+      - 8080:4200
+    networks:
+      - crm-network
+    volumes:
+      - /Users/kpasek/Development/Crm/crm-app:/var/www/frontend
+
+networks:
+  crm-network:
