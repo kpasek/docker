@@ -4,7 +4,7 @@ services:
   angular:
     container_name: angular-dev
     build: .
-    command: ng serve --watch=true
+    command: ng serve
     ports:
       - 8080:4200
     networks:
