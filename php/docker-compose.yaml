@@ -2,41 +2,52 @@ version: "3"
 
 services:
   postgres:
-    image: postgres:13.4
-    container_name: crm-postgres13
+    image: postgres:14-alpine
+    container_name: php-postgres14
     environment:
-      POSTGRES_DB: crm-db
-      POSTGRES_USER: crm
-      POSTGRES_PASSWORD: crm-pw
+      POSTGRES_DB: php-db
+      POSTGRES_USER: php
+      POSTGRES_PASSWORD: php-pw
     networks: 
-      - crm-network
+      - php-network
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres14_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   
   nginx:
-    container_name: crm-nginx
+    container_name: php-nginx
     image: nginx:1.19.0-alpine
     ports:
       - 8080:80
     networks:
-      - crm-network
+      - php-network
     volumes:
       - ./docker_conf/nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
-      - /Users/kpasek/Development/Crm/crm-api/app:/backend
-      - /Users/kpasek/Development/Crm/crm-app/dist:/var/www/frontend
+      - /Users/kpasek/Development/php/backend:/backend
+      - /Users/kpasek/Development/php/frontend:/var/www/frontend
   php8:
-    container_name: crm-php
+    container_name: php-php
     build: './docker_conf/php'
     networks:
-      - crm-network
+      - php-network
     volumes:
-      - /Users/kpasek/Development/Crm/crm-api/app:/backend
+      - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/docker/php/docker_conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    container_name: php-rabbitmq
+    ports: 
+      - 5672:15672
+    networks:
+      - php-network
+  redis:
+    image: redis:6.2-alpine
+    networks:
+      - php-network
 
 networks:
-  crm-network:
+  php-network:
 volumes:
-  postgres_data:
+  postgres14_data:
