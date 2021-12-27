@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-bullseye
+FROM php:8.1-fpm-bullseye
 
 RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini 
 

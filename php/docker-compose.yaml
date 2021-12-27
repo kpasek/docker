@@ -5,16 +5,16 @@ services:
     image: postgres:14-alpine
     container_name: php-postgres14
     environment:
-      POSTGRES_DB: php-db
-      POSTGRES_USER: php
-      POSTGRES_PASSWORD: php-pw
-    networks: 
+      POSTGRES_DB: visit_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwe123
+    networks:
       - php-network
     volumes:
       - postgres14_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-  
+
   nginx:
     container_name: php-nginx
     image: nginx:1.19.0-alpine
@@ -27,27 +27,32 @@ services:
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
       - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/php/frontend:/var/www/frontend
-  php8:
+  php81:
     container_name: php-php
     build: './docker_conf/php'
+    expose:
+      - 9003
     networks:
       - php-network
     volumes:
       - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/docker/php/docker_conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-  rabbitmq:
-    image: rabbitmq:3.9-management
-    container_name: php-rabbitmq
-    ports: 
-      - 5672:15672
-    networks:
-      - php-network
+  # rabbitmq:
+  #   image: rabbitmq:3.9-management
+  #   container_name: php-rabbitmq
+  #   ports: 
+  #     - 5672:15672
+  #   networks:
+  #     - php-network
   redis:
     image: redis:6.2-alpine
+    container_name: php-redis
+    ports:
+      - 6379:6379
     networks:
       - php-network
 
 networks:
-  php-network:
+  php-network: null
 volumes:
-  postgres14_data:
+  postgres14_data: null

@@ -1,1 +1,1 @@
-docker run --name postgres13 -p 5432:5432 -e POSTGRES_PASSWORD=qwe123 -v postgres_data:/var/lib/postgresql/data -d postgres:13.3
+docker run --name postgres14 -p 5432:5432 -e POSTGRES_PASSWORD=qwe123 -v postgres_data:/var/lib/postgresql/data -d postgres:14
