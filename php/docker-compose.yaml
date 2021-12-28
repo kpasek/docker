@@ -20,11 +20,14 @@ services:
     image: nginx:1.19.0-alpine
     ports:
       - 8080:80
+      - 8083:443
     networks:
       - php-network
     volumes:
       - ./docker_conf/nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
+      - ./docker_conf/nginx/nginx.crt:/etc/ssl/certs/nginx.crt
+      - ./docker_conf/nginx/nginx.key:/etc/ssl/private/nginx.key
       - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/php/frontend:/var/www/frontend
   php81:
@@ -53,6 +56,6 @@ services:
       - php-network
 
 networks:
-  php-network: null
+  php-network:
 volumes:
-  postgres14_data: null
+  postgres14_data:
