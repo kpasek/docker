@@ -19,8 +19,8 @@ services:
     container_name: php-nginx
     image: nginx:1.19.0-alpine
     ports:
-      - 8080:80
-      - 8083:443
+      - 80:80
+      - 443:443
     networks:
       - php-network
     volumes:
@@ -28,6 +28,8 @@ services:
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
       - ./docker_conf/nginx/nginx.crt:/etc/ssl/certs/nginx.crt
       - ./docker_conf/nginx/nginx.key:/etc/ssl/private/nginx.key
+      - ./docker_conf/nginx/localhost.crt:/etc/ssl/certs/localhost.crt
+      - ./docker_conf/nginx/localhost.key:/etc/ssl/private/localhost.key
       - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/php/frontend:/var/www/frontend
   php81:
