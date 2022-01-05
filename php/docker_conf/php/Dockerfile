@@ -4,13 +4,16 @@ RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-RUN apt update && apt install unzip git iproute2 libzip-dev libpq-dev zip -y
+RUN apt update && apt install unzip git iproute2 libzip-dev libpq-dev zip libxslt1-dev -y
 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-enable zip
 
 RUN docker-php-ext-install pdo pdo_pgsql
 RUN docker-php-ext-enable pdo pdo_pgsql
+
+RUN docker-php-ext-install xsl
+RUN docker-php-ext-enable xsl
 
 RUN pecl install -o -f redis
 RUN rm -rf /tmp/pear 

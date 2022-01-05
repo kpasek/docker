@@ -26,8 +26,8 @@ services:
     volumes:
       - ./docker_conf/nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
-      - ./docker_conf/nginx/nginx.crt:/etc/ssl/certs/nginx.crt
-      - ./docker_conf/nginx/nginx.key:/etc/ssl/private/nginx.key
+      # - ./docker_conf/nginx/nginx.crt:/etc/ssl/certs/nginx.crt
+      # - ./docker_conf/nginx/nginx.key:/etc/ssl/private/nginx.key
       - ./docker_conf/nginx/localhost.crt:/etc/ssl/certs/localhost.crt
       - ./docker_conf/nginx/localhost.key:/etc/ssl/private/localhost.key
       - /Users/kpasek/Development/php/backend:/backend
@@ -42,13 +42,7 @@ services:
     volumes:
       - /Users/kpasek/Development/php/backend:/backend
       - /Users/kpasek/Development/docker/php/docker_conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-  # rabbitmq:
-  #   image: rabbitmq:3.9-management
-  #   container_name: php-rabbitmq
-  #   ports: 
-  #     - 5672:15672
-  #   networks:
-  #     - php-network
+
   redis:
     image: redis:6.2-alpine
     container_name: php-redis
@@ -56,8 +50,43 @@ services:
       - 6379:6379
     networks:
       - php-network
+  phppgadmin:
+    restart: always
+    container_name: php-pgadmin
+    ports:
+      - "8543:80"
+    image: neimheadh/phppgadmin
+    environment:
+      POSTGRES_HOST: php-postgres14
+      POSTGRES_PORT: 5432
+    depends_on:
+      - postgres
+    networks:
+      - php-network
+  portainer:
+    image: cr.portainer.io/portainer/portainer-ce:2.9.3
+    restart: always
+    container_name: php-portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - 8000:8000
+      - 9443:9443
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: php-redisinsight
+    ports:
+      - 8001:8001
+    volumes:
+      - redisinsight:/db
+    networks:
+      - php-network
 
 networks:
-  php-network:
+  php-network: null
 volumes:
-  postgres14_data:
+  postgres14_data: null
+  portainer_data: null
+  redisinsight: null
