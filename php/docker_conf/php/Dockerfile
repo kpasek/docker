@@ -4,10 +4,15 @@ RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-RUN apt update && apt install unzip git iproute2 libzip-dev libpq-dev zip libxslt1-dev supervisor -y
+RUN apt update && apt install unzip git iproute2 libzip-dev libpq-dev zip libxslt1-dev supervisor librabbitmq-dev libssh-dev -y
 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-enable zip
+
+RUN docker-php-ext-install pdo bcmath
+RUN docker-php-ext-install pdo sockets
+RUN pecl install amqp
+RUN docker-php-ext-enable amqp
 
 RUN docker-php-ext-install pdo pdo_pgsql
 RUN docker-php-ext-enable pdo pdo_pgsql
@@ -28,3 +33,5 @@ RUN docker-php-ext-enable redis
 #install composer
 RUN php -r "copy('https://getcomposer.org/installer','composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+RUN service supervisor start

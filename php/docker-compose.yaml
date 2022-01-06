@@ -37,6 +37,8 @@ services:
     build: './docker_conf/php'
     expose:
       - 9003
+    ports:
+      - 9001:9001
     networks:
       - php-network
     volumes:
@@ -55,6 +57,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
     container_name: php-rabbitmq
+    hostname: php-rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq
