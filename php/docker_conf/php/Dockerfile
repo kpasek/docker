@@ -33,5 +33,3 @@ RUN docker-php-ext-enable redis
 #install composer
 RUN php -r "copy('https://getcomposer.org/installer','composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-RUN service supervisor start

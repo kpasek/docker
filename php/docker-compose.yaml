@@ -32,8 +32,10 @@ services:
       - ./docker_conf/nginx/localhost.key:/etc/ssl/private/localhost.key
       - ./backend:/backend
       - ./frontend:/var/www/frontend
+    depends_on:
+      - php81
   php81:
-    container_name: php-php
+    container_name: php-php81
     build: './docker_conf/php'
     expose:
       - 9003
@@ -45,6 +47,8 @@ services:
       - ./backend:/backend
       - ./docker_conf/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./docker_conf/supervisor/messenger-worker.conf:/etc/supervisor/conf.d/messenger-worker.conf
+    depends_on:
+      - postgres
 
   redis:
     image: redis:6.2-alpine
@@ -98,6 +102,8 @@ services:
       - redisinsight:/db
     networks:
       - php-network
+    depends_on:
+      - redis
 
 networks:
   php-network: null
