@@ -20,6 +20,9 @@ RUN docker-php-ext-enable pdo pdo_pgsql
 RUN docker-php-ext-install xsl
 RUN docker-php-ext-enable xsl
 
+RUN docker-php-ext-install intl
+RUN docker-php-ext-enable intl
+
 RUN pecl install -o -f redis
 RUN rm -rf /tmp/pear 
 RUN docker-php-ext-enable redis
@@ -33,3 +36,7 @@ RUN docker-php-ext-enable redis
 #install composer
 RUN php -r "copy('https://getcomposer.org/installer','composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
+RUN apt update
+RUN apt install symfony-cli

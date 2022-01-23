@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  phppgadmin:
+    container_name: pgadmin
+    ports:
+      - "8543:80"
+    image: neimheadh/phppgadmin
+    environment:
+      POSTGRES_HOST: php-postgres14
+      POSTGRES_PORT: 5432
+    networks:
+      - app-network
+
+  portainer:
+    image: cr.portainer.io/portainer/portainer-ce:2.9.3
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - 8000:8000
+      - 9443:9443
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight
+    ports:
+      - 8001:8001
+    volumes:
+      - redisinsight:/db
+
+volumes:
+  portainer_data: null
+  redisinsight: null
+networks:
+  app-network: null

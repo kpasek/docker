@@ -5,8 +5,8 @@ services:
     image: postgres:14-alpine
     container_name: php-postgres14
     environment:
-      POSTGRES_DB: visit_db
-      POSTGRES_USER: postgres
+      POSTGRES_DB: term_db
+      POSTGRES_USER: term_user
       POSTGRES_PASSWORD: qwe123
     networks:
       - php-network
@@ -26,8 +26,6 @@ services:
     volumes:
       - ./docker_conf/nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./docker_conf/nginx/frontend.conf:/etc/nginx/conf.d/frontend.conf
-      # - ./docker_conf/nginx/nginx.crt:/etc/ssl/certs/nginx.crt
-      # - ./docker_conf/nginx/nginx.key:/etc/ssl/private/nginx.key
       - ./docker_conf/nginx/localhost.crt:/etc/ssl/certs/localhost.crt
       - ./docker_conf/nginx/localhost.key:/etc/ssl/private/localhost.key
       - ./backend:/backend
@@ -69,45 +67,21 @@ services:
       - 8081:15672
     networks:
       - php-network
+
   phppgadmin:
-    restart: always
-    container_name: php-pgadmin
+    container_name: pgadmin-front
     ports:
       - "8543:80"
     image: neimheadh/phppgadmin
     environment:
       POSTGRES_HOST: php-postgres14
       POSTGRES_PORT: 5432
-    depends_on:
-      - postgres
+      POSTGRES_DB: term_db
+      POSTGRES_USER: term_user
+      POSTGRES_PASSWORD: qwe123
     networks:
       - php-network
-  portainer:
-    image: cr.portainer.io/portainer/portainer-ce:2.9.3
-    restart: always
-    container_name: php-portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    ports:
-      - 8000:8000
-      - 9443:9443
-
-  redisinsight:
-    image: redislabs/redisinsight:latest
-    container_name: php-redisinsight
-    ports:
-      - 8001:8001
-    volumes:
-      - redisinsight:/db
-    networks:
-      - php-network
-    depends_on:
-      - redis
-
 networks:
   php-network: null
 volumes:
   postgres14_data: null
-  portainer_data: null
-  redisinsight: null
