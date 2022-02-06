@@ -10,7 +10,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-enable zip
 
 RUN docker-php-ext-install pdo bcmath
-RUN docker-php-ext-install pdo sockets
+RUN docker-php-ext-install pdo
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
 

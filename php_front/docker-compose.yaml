@@ -68,19 +68,6 @@ services:
     networks:
       - php-network
 
-  phppgadmin:
-    container_name: pgadmin-front
-    ports:
-      - "8543:80"
-    image: neimheadh/phppgadmin
-    environment:
-      POSTGRES_HOST: php-postgres14
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: term_db
-      POSTGRES_USER: term_user
-      POSTGRES_PASSWORD: qwe123
-    networks:
-      - php-network
 networks:
   php-network: null
 volumes:

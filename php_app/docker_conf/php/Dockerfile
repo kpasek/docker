@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-bullseye
+FROM php:8.1-fpm
 
 RUN echo 'memory_limit = 2048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini 
 
@@ -10,7 +10,7 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-enable zip
 
 RUN docker-php-ext-install pdo bcmath
-RUN docker-php-ext-install pdo sockets
+RUN docker-php-ext-install pdo
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
 
@@ -40,3 +40,7 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list
 RUN apt update
 RUN apt install symfony-cli
+
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g yarn
