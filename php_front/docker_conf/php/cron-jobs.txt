@@ -1,0 +1,4 @@
+* * * * * php /backend/bin/console app:schedule:minute-tasks >> /backend/var/log/minutes_tasks.log
+0 * * * * php /backend/bin/console app:schedule:hourly-tasks >> /backend/var/log/hourly_tasks.log
+0 0 * * * php /backend/bin/console app:schedule:daily-tasks >> /backend/var/log/daily_tasks.log
+*/4 * * * * php /backend/bin/console app:schedule:quarter-tasks >> /backend/var/log/quarter_tasks.log

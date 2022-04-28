@@ -5,9 +5,9 @@ services:
     image: postgres:14-alpine
     container_name: php-postgres14
     environment:
-      POSTGRES_DB: term_db
-      POSTGRES_USER: term_user
-      POSTGRES_PASSWORD: qwe123
+      POSTGRES_DB: schedule
+      POSTGRES_USER: schedule_user
+      POSTGRES_PASSWORD: schedule123
     networks:
       - php-network
     volumes:
